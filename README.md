@@ -24,5 +24,5 @@ The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_an
 | -------------------- | ------------------------------------------------------- |
 | MosaicInsigh.py      | show_fits ; show_image ; calc_axis                      |
 | corr_fits.py         | fill_im_hole ; corr_fits ; input_gen                    |
-| Patch_Management.py  | fct_IoU ; fct_classical_IoU ; asStride ; poolingOverlap |
+| Patch_Management.py(1)| fct_IoU ; fct_classical_IoU ; asStride ; poolingOverlap |
 
