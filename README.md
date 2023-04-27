@@ -13,4 +13,4 @@ You can find the catalog in : https://cdsarc.cds.unistra.fr/ftp/J/A+A/659/A1/
 
 All the explanations are in the file : Info
 
-No need to dowload the catalog, you can find directly the npz files in this repository.
+The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_analysis.ipynb" You should download the catalog on your own and maybe modify the way the data are stored and called.
