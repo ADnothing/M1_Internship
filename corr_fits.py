@@ -245,7 +245,9 @@ def input_gen(data, patch_size=256, patch_shift=240, orig_offset=64):
 def input_gen_MD(hdul, im_depth=1, min_pix=0.4e-6, max_pix=0.4e-4, patch_size=256, patch_shift=240, orig_offset=64):
 	"""
 	Enhanced version of the input_gen function that take into account
-	the depth of the image.
+	the depth of the image. This function take into account the hdul of the
+	fits file and go through the number of channel selected by the parameter 
+	im_depth.
 	
 	hdul : astropy object
 	im_depth : int (optional, default=1)
@@ -271,7 +273,7 @@ def input_gen_MD(hdul, im_depth=1, min_pix=0.4e-6, max_pix=0.4e-4, patch_size=25
 	"""
 	
 	#Get the map size in pixel.
-	map_pixel_size = poolingOverlap(hdul[0].data,2,stride=None,method='mean', pad=False, return_max_pos=False).shape[0]
+	map_pixel_size = poolingOverlap(hdul[0].data,2,stride=None,method='mean', pad=False, return_max_pos=False).shape[0] #see Patch_Management.py
 		
 	#Calculate the number of areas in the width and height directions
 	nb_area_w = int((map_pixel_size-orig_offset)/patch_shift) + 1
@@ -297,7 +299,7 @@ def input_gen_MD(hdul, im_depth=1, min_pix=0.4e-6, max_pix=0.4e-4, patch_size=25
 		
 		#Getting the data in the channel
 		data = hdul[ch].data
-		full_data = poolingOverlap(data,2,stride=None,method='mean', pad=False, return_max_pos=False)
+		full_data = poolingOverlap(data,2,stride=None,method='mean', pad=False, return_max_pos=False) #see Patch_Management.py
 		full_data = (np.clip(full_data,min_pix,max_pix) - min_pix) / (max_pix-min_pix)
 		full_data = np.tanh(3.0*full_data)
 		
