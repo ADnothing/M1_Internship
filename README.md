@@ -9,6 +9,9 @@ This repository contains the code I used during my internship.
 
 # LoTSS DR2
 
+
+Parameters of the catalog are explored in the notebook "Catalog_analysis.ipynb".
+
 You can find the catalog in : https://cdsarc.cds.unistra.fr/ftp/J/A+A/659/A1/
 
 All the explanations are in the file : Info
