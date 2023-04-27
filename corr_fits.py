@@ -242,19 +242,23 @@ def input_gen(data, patch_size=256, patch_shift=240, orig_offset=64):
 #==========================================================================================
 
 
-def input_gen_MD(hdul, im_depth=1,min_pix = 0.4e-6, max_pix = 0.4e-4, patch_size=256, patch_shift=240, orig_offset=64):
+def input_gen_MD(hdul, im_depth=1, min_pix=0.4e-6, max_pix=0.4e-4, patch_size=256, patch_shift=240, orig_offset=64):
 	"""
 	Enhanced version of the input_gen function that take into account
 	the depth of the image.
 	
 	hdul : astropy object
 	im_depth : int (optional, default=1)
+	min_pix : float (optional, default=0.4e-6)
+	max_pix : float (optional, default=0.4e-4)
 	patch_size : int (optional, default=256)
 	patch_shift : int (optional, default=240)
 	orig_offset : int (optional, default=64)
 	
 	hdul : Header Data Unit List.
 	im_depth : number of channels in the output patches.
+	min_pix : minimum pixel value of the input image
+	max_pix : maximum pixel value of the input image
 	patch_size : size of the image patches to be generated.
 	patch_shift : amount to shift each patch by.
 	orig_offset : offset to the original image.
