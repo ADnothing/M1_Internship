@@ -3,11 +3,11 @@ Intership performed at the LERMA and supervised by David Cornu and Philippe Salo
 
 This repository contains the code I used during my internship.
 
-# Introduction
+## Introduction
 
 ...
 
-# LoTSS DR2
+## LoTSS DR2
 
 
 Parameters of the catalog are explored in the notebook "Catalog_analysis.ipynb".
@@ -18,7 +18,7 @@ All the explanations are in the file : Info
 
 The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_analysis.ipynb" You should download the catalog on your own and maybe modify the way the data are stored and called.
 
-# Files and content
+## Files and content
 
 | File name            | Content                                                 |
 | -------------------- | ------------------------------------------------------- |
