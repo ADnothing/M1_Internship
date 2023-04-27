@@ -19,11 +19,7 @@ The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_an
 
 | File name            | Content                                                 |
 | -------------------- | ------------------------------------------------------- |
-| a_distribution.py    | Scintillateurs, détecteurs de photons, visualisation    |
-| b_reconstructions.py | Reconstructions                                         |
-| c_Collimateur.py     | Collimateur                                             |
-| d_main.py            | Test des fonctions, test des événements aléatoires      |
-| f_application.py     | Applications, Applications médicales                    |
-| gauss.py             | Analyse des erreurs, ajustement gaussien bidimensionnel |
-| lib.py               | Modules utilisés                                        |
-| variables.py         | Paramètres utilisés                                     |
+| MosaicInsigh.py      | show_fits ; show_image ; calc_axis                      |
+| corr_fits.py         | fill_im_hole ; corr_fits ; input_gen                    |
+| Patch_Management.py  | fct_IoU ; fct_classical_IoU ; asStride ; poolingOverlap |
+
