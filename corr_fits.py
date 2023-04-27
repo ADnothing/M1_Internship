@@ -33,9 +33,9 @@ def fill_im_hole(image, mask=None, method='median', art_noise=False):
 	worse results (to test in different circomptances)
 		
 	image : ndarray(dtype=float)
-	mask : ndarray(dtype=bool) (optional)
-	method : str (optional)
-	art_noise : bool (optional)
+	mask : ndarray(dtype=bool) (optional, default=None)
+	method : str (optional, default='median')
+	art_noise : bool (optional, default=False)
 	
 	image : a 2D array of flux/beam value
 	mask : a condition mask on the value.
@@ -143,9 +143,9 @@ def input_gen(data, patch_size=256, patch_shift=240, orig_offset=64):
 	determined size and shift from one patch to an other.
 	
 	data : ndarray(dtype=float)
-	image_size : int (optional)
-	patch_shift : int (optional)
-	orig_offset : int (optional)
+	image_size : int (optional, default=256)
+	patch_shift : int (optional, default=240)
+	orig_offset : int (optional, default=64)
 	
 	data : Input ndarray containing image data.
 	patch_size : size of the image patches to be generated.
@@ -237,4 +237,128 @@ def input_gen(data, patch_size=256, patch_shift=240, orig_offset=64):
 	print("Input generated !")
 		
 	return input_data
+	
+
+#==========================================================================================
+
+
+def input_gen_MD(hdul, im_depth=1,min_pix = 0.4e-6, max_pix = 0.4e-4, patch_size=256, patch_shift=240, orig_offset=64):
+	"""
+	Enhanced version of the input_gen function that take into account
+	the depth of the image.
+	
+	hdul : astropy object
+	im_depth : int (optional, default=1)
+	patch_size : int (optional, default=256)
+	patch_shift : int (optional, default=240)
+	orig_offset : int (optional, default=64)
+	
+	hdul : Header Data Unit List.
+	im_depth : number of channels in the output patches.
+	patch_size : size of the image patches to be generated.
+	patch_shift : amount to shift each patch by.
+	orig_offset : offset to the original image.
+	
+	return :
+	input_data : ndarray(dtype=float)
+	
+	input_data : output ndarray containing image patches.
+	
+	"""
+	
+	#Get the map size in pixel.
+	map_pixel_size = poolingOverlap(hdul[0].data,2,stride=None,method='mean', pad=False, return_max_pos=False).shape[0]
 		
+	#Calculate the number of areas in the width and height directions
+	nb_area_w = int((map_pixel_size-orig_offset)/patch_shift) + 1
+	nb_area_h = int((map_pixel_size-orig_offset)/patch_shift) + 1
+	
+	#Calculate the total number of patches to be generated
+	nb_patches = nb_area_w*nb_area_h
+		
+	#Initialize an ndarray for storing the image patch data
+	patch = np.zeros((patch_size, patch_size), dtype="float32")
+			
+	#Initialize an ndarray for storing the input data
+	#First dimension : patches
+	#Second dimensio : each pixels of the patches
+	input_data = np.zeros((nb_patches,patch_size*patch_size*im_depth))
+	
+	
+	
+	#Loop over all channels
+	for ch in range(0, im_depth):
+	
+		print("Channel number %d"%(ch+1))
+		
+		#Getting the data in the channel
+		data = hdul[ch].data
+		full_data = poolingOverlap(data,2,stride=None,method='mean', pad=False, return_max_pos=False)
+		full_data = (np.clip(full_data,min_pix,max_pix) - min_pix) / (max_pix-min_pix)
+		full_data = np.tanh(3.0*full_data)
+		
+		
+		
+		print("Input generation...")
+
+		#Iterate over the number of patches to be generated
+		for i_d in tqdm(range(0,nb_patches)):
+		
+			#Calculate the x and y indices for the current patch
+			p_y = int(i_d/nb_area_w)
+			p_x = int(i_d%nb_area_w)
+			
+			#Initialize the min and max x and y coordinates for the patch
+			px_min = 0
+			px_max = patch_size
+			py_min = 0
+			py_max = patch_size
+			
+			#Calculate the min and max x and y coordinates for the patch based on the current x and y indices
+			xmin = p_x*patch_shift - orig_offset
+			xmax = p_x*patch_shift + patch_size - orig_offset
+			ymin = p_y*patch_shift - orig_offset
+			ymax = p_y*patch_shift + patch_size - orig_offset
+			
+			# Initialize a flag for whether any of the patch coordinates are out of bounds
+			set_zero = 0
+		
+			# If any of the patch coordinates are out of bounds, 
+			#set the corresponding min and/or max values and set the flag to 1
+			if(xmin < 0):
+				px_min = -xmin
+				xmin = 0
+				set_zero = 1
+			if(ymin < 0):
+				py_min = -ymin
+				ymin = 0
+				set_zero = 1
+			if(xmax > map_pixel_size):
+				px_max = patch_size - (xmax-map_pixel_size)
+				xmax = map_pixel_size
+				set_zero = 1
+			if(ymax > map_pixel_size):
+				py_max = patch_size - (ymax-map_pixel_size)
+				ymax = map_pixel_size
+				set_zero = 1
+			
+			#If any of the patch coordinates are out of bounds, set the patch data to 0	
+			if(set_zero):
+				patch[:,:] = 0.0
+		
+			#extract the data for the current patch, and fill in any holes with the mean value of the data
+			#filled with 0. if the patch is full of nan.
+
+			sub_data = np.flip(data[xmin:xmax,ymin:ymax],axis=0)
+			patch[px_min:px_max,py_min:py_max] = fill_im_hole(sub_data, method='mean')
+					
+			#flattening the data
+			input_data[i_d,patch_size*patch_size*ch:patch_size*patch_size*(ch+1)] = patch.flatten("C")
+			
+		print("Input generated !")	
+			
+	
+	return input_data	
+		
+	
+	

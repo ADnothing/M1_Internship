@@ -26,13 +26,13 @@ def show_fits(fits_file, frame=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4,
 	they will be replaced by "_".
 	
 	fits_file : str
-	frame : tuple(float, float, float) (optional)
-	Title : str (optional)
-	cmap : str (optional)
-	vmin : float (optional)
-	vmax : float (optional)
-	fill : bool (optional)
-	save : bool (optional)
+	frame : tuple(float, float, float) (optional, default=None)
+	Title : str (optional, default='')
+	cmap : str (optional, default='hot')
+	vmin : float (optional, default=1e-4)
+	vmax : float (optional, default=4e-4)
+	fill : bool (optional, defualt=False)
+	save : bool (optional, default=Fault)
 	
 	fits_file : the path to the fits file
 		that contains the image.
@@ -98,12 +98,12 @@ def show_image(image, wcs=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4, save
 	Can take into account wcs.
 		
 	image : ndarray(dtype=float)
-	wcs : astropy wcs object (optionnal)
-	Title : str (optional)
-	cmap : str (optional)
-	vmin : float (optional)
-	vmax : float (optional)
-	save : bool (optional)
+	wcs : astropy wcs object (optionnal, default=None)
+	Title : str (optional, default='')
+	cmap : str (optional, default='hot')
+	vmin : float (optional, default=1e-4)
+	vmax : float (optional, default=4e-4)
+	save : bool (optional, default=False)
 	
 	image : a 2D array of flux/beam value
 	wcs : The world coordinate system of
@@ -154,7 +154,7 @@ def calc_axis(coord, list_fits, method='mean'):
 	
 	coord : tuple.
 	list_fits : list[str]
-	method : str (optional)
+	method : str (optional, default='mean')
 	
 	coord : (RA, DEC) in degrees.
 	list_fits : list of path to the mosaics.
