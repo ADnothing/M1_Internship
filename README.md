@@ -28,4 +28,4 @@ The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_an
 
 Note :
 
-(1) : The functions present in this file are written by David Cornu.
+(1) : The functions present in this file are (mostlty) written by David Cornu.
