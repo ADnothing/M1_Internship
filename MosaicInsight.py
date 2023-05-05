@@ -39,7 +39,8 @@ def show_fits(fits_file, frame=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4,
 	frame : the frame you want to display,
 		format : (RA, DEC, side)
 		where RA and DEC are ICRS angles
-		and side the side of the frame
+		and side the side of the frame in
+		pixels.
 		note : the side is such that
 		(RA,DEC) si the center of the frame.
 	Title : Title of the figure
@@ -283,5 +284,57 @@ def calc_axis(coord, list_fits, method='mean'):
 	
 	
 	return Maj, Min	
+
+
+#==========================================================================================	
+
+
+def save_subfits(fits_file, frame, display=False):
+	"""
+	Save a subset fits image and display it
+	if asked.
 	
-		
+	fits_file : str
+	frame : tuple(float, float, float)
+	display : bool (optional, default=False)
+	
+	fits_file : the path to the fits file
+	frame : the frame you want to keep,
+		format : (RA, DEC, side)
+		where RA and DEC are ICRS angles
+		and side the side of the frame in
+		pixels.
+		note : the side is such that
+		(RA,DEC) si the center of the frame.
+	display : if True display the subset.
+	
+	return
+	None.
+	"""
+	
+	#Open the file
+	hdul = fits.open(fits_file)
+	hdr = hdul[0].header
+	wcs = WCS.WCS(hdr)
+	
+	#Definition of the frame in pixel
+	RA, DEC, side = frame
+	Px, Py = wcs.wcs_world2pix(RA, DEC, 0)
+	
+	#reshape of the image
+	hdul[0].data = hdul[0].data[int(Py - side/2):int(Py + side/2) , int(Px - side/2):int(Px + side/2)]
+	
+	#changing the wcs
+	wcs.wcs.crval = [RA, DEC]
+	wcs.wcs.crpix = [side/2, side/2]
+	
+	#display
+	if display:
+		show_image(hdul[0].data, wcs=wcs, Title='Subset of the fits %s'%fits_file)
+	
+	#saving the result
+	name_file = "sub_"+fits_file.split("/")[-1]
+	hdul.writeto(name_file)
+	
+	hdul.close()
+	
