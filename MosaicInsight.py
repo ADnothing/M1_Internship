@@ -294,6 +294,12 @@ def save_subfits(fits_file, frame, display=False):
 	Save a subset fits image and display it
 	if asked.
 	
+	Note : in astropy module, there is a way to do
+	it more efficiently using the cutout function.
+	At this moment I have still not figure out how
+	it works, but this function works so I wont try
+	to change it as long as it does what I want.
+	
 	fits_file : str
 	frame : tuple(float, float, float)
 	display : bool (optional, default=False)
@@ -328,13 +334,16 @@ def save_subfits(fits_file, frame, display=False):
 	wcs.wcs.crval = [RA, DEC]
 	wcs.wcs.crpix = [side/2, side/2]
 	
+	#Update the header with the new WCS information
+	hdr.update(wcs.to_header())
+	
 	#display
 	if display:
 		show_image(hdul[0].data, wcs=wcs, Title='Subset of the fits %s'%fits_file)
 	
 	#saving the result
 	name_file = "sub_"+fits_file.split("/")[-1]
-	hdul.writeto(name_file)
+	hdul.writeto(name_file, overwrite=True)
 	
 	hdul.close()
 	
