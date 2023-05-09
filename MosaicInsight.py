@@ -77,7 +77,7 @@ def show_fits(fits_file, frame=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4,
 		image = fill_im_hole(image)
 	
 	#plot
-	plt.figure(figsize=(20,22))
+	plt.figure(figsize=(12,10), dpi=300)
 	plt.subplot(projection=wcs)
 	plt.imshow(image, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
 	plt.xlabel("RA (ICRS) [h m s]", size='xx-large')
@@ -121,7 +121,7 @@ def show_image(image, wcs=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4, save
 	None.
 	"""
 	
-	plt.figure(figsize=(20,22))
+	plt.figure(figsize=(12,10), dpi=300)
 	plt.subplot(projection=wcs)
 	plt.imshow(image, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
 	plt.xlabel("RA (ICRS) [h m s]", size='xx-large')
