@@ -23,6 +23,7 @@ from numba import jit
 #but it is sufficient in that purpose
 DESI_density = 52550 #target/degree^2
 ALLWISE_density = 14663 #target/degree^2
+LoTSS_density = 1169 #target/degree^2
 
 test_surface = 2.14 #degree^2
 
@@ -129,8 +130,9 @@ def gen_test(dens, surface, n=1, name="Xmatch_test"):
 
 if __name__ == "__main__":
 	
-	gen_test(DESI_density, test_surface, n=10, name="./xmatch_test/DESI_Xmatch_test")
-	gen_test(ALLWISE_density, test_surface, n=10, name="./xmatch_test/ALLWISE_Xmatch_test")
+	#gen_test(DESI_density, test_surface, n=10, name="./xmatch_test/DESI_Xmatch_test")
+	#gen_test(ALLWISE_density, test_surface, n=10, name="./xmatch_test/ALLWISE_Xmatch_test")
+	gen_test(LoTSS_density, test_surface, n=10, name="./xmatch_test/LoTSS_Xmatch_test")
 
 
 #Feel free to modify the main function as well as the global variables
