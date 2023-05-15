@@ -80,11 +80,11 @@ def show_fits(fits_file, frame=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4,
 	plt.figure(figsize=(12,10), dpi=300)
 	plt.subplot(projection=wcs)
 	plt.imshow(image, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
-	plt.xlabel("RA (ICRS) [h m s]", size='xx-large')
-	plt.ylabel("DEC (ICRS) [deg ' \"]", size='xx-large')
-	plt.title(Title, size='xx-large')
+	plt.xlabel("RA (ICRS) [h m s]", size='x-large')
+	plt.ylabel("DEC (ICRS) [deg ' \"]", size='x-large')
+	plt.title(Title, size='x-large')
 	clb=plt.colorbar()
-	clb.ax.set_title(label="Flux [mJy/Beam]",fontsize=15)
+	clb.ax.set_title(label="Flux [mJy/Beam]",fontsize=10)
 	if(save):
 		plt.savefig(Title.replace(" ","_")+".pdf")
 	plt.show()
@@ -124,11 +124,11 @@ def show_image(image, wcs=None, Title='', cmap='hot', vmin=1e-4, vmax=4e-4, save
 	plt.figure(figsize=(12,10), dpi=300)
 	plt.subplot(projection=wcs)
 	plt.imshow(image, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
-	plt.xlabel("RA (ICRS) [h m s]", size='xx-large')
-	plt.ylabel("DEC (ICRS) [deg ' \"]", size='xx-large')
-	plt.title(Title, size='xx-large')
+	plt.xlabel("RA (ICRS) [h m s]", size='x-large')
+	plt.ylabel("DEC (ICRS) [deg ' \"]", size='x-large')
+	plt.title(Title, size='x-large')
 	clb=plt.colorbar()
-	clb.ax.set_title(label="Flux [mJy/Beam]",fontsize=15)
+	clb.ax.set_title(label="Flux [mJy/Beam]",fontsize=10)
 	if(save):
 		plt.savefig(Title.replace(" ","_")+".pdf")
 	plt.show()
@@ -346,4 +346,95 @@ def save_subfits(fits_file, frame, display=False):
 	hdul.writeto(name_file, overwrite=True)
 	
 	hdul.close()
+
+
+#==========================================================================================	
+
+
+def dump_fits(fits_file, disp=True):
+	"""
+	Shows information on a fits file.
+	Looks through each cahnnels and display
+	statistics on the data.
+	If asked display also the image.
 	
+	Note : make sure that the header of the fits file
+	have the following data : BUNIT, CRPIX1, CRPIX2.
+	Otherwise, an error message will be display :
+	KeyError: "Keyword [BUNIT/CRPIX1/CRPIX2] not found."
+	If it occures, you can remove it from the code to
+	make it run or add it manually in the header.
+	
+	fits_file = str
+	disp = bool (optional, default=True)
+	
+	fits_file : pathe to the fits file with its name
+	disp : if True display the image
+	
+	return
+	None.
+	"""
+
+	hdul = fits.open(fits_file)
+	nb_channel = len(hdul)
+
+	print("="*60)
+	print("Diagnostic of fits file : %s\n"%fits_file)
+	print("%d channels in the file"%nb_channel)
+	
+	print("-"*60,'\n')
+	
+	for chan in range(nb_channel):
+		
+		
+		image = hdul[chan].data
+		hdr = hdul[chan].header
+		wcs = WCS.WCS(hdr)
+	
+		print("Channel %d\n"%(chan+1))
+		print("Header :\n")
+		print(hdr)
+		
+		if disp:
+			print("Display ...")
+			show_image(image, wcs=wcs, Title=fits_file)
+			print("Plot closed\n")
+		
+		n, m = image.shape
+		
+		print("Shape of the channel : (%d,%d) pixels"%(n,m))
+		print("%d pixels in total"%(n*m))
+		
+		non_nan = np.sum(~np.isnan(image))
+		
+		print("%d pixels with data\n"%non_nan)
+		print("General pixels values :")
+		mean = np.nanmean(image)
+		median = np.nanmedian(image)
+		minval = np.nanmin(image)
+		maxval = np.nanmax(image)
+		print("Mean : %.3e %s"%(mean, hdr["BUNIT"]))
+		print("Median : %.3e %s"%(median, hdr["BUNIT"]))
+		print("Min : %.3e %s"%(minval, hdr["BUNIT"]))
+		print("Max : %.3e %s"%(maxval, hdr["BUNIT"]))
+		
+		print("\nCentral subset pixels values :")
+		center_X = hdr["CRPIX1"]
+		center_Y = hdr["CRPIX2"]
+		sub_image = image[center_X-1000:center_X+1000, center_Y-1000:center_Y+1000]
+		mean = np.nanmean(sub_image)
+		median = np.nanmedian(sub_image)
+		minval = np.nanmin(sub_image)
+		maxval = np.nanmax(sub_image)
+		print("Mean : %.3e %s"%(mean, hdr["BUNIT"]))
+		print("Median : %.3e %s"%(median, hdr["BUNIT"]))
+		print("Min : %.3e %s"%(minval, hdr["BUNIT"]))
+		print("Max : %.3e %s"%(maxval, hdr["BUNIT"]))
+		
+		
+		
+		print("-"*60,'\n')
+		
+	
+	hdul.close()
+	print("="*60)
