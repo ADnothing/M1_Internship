@@ -22,7 +22,7 @@ The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_an
 
 | File name            | Content                                                 |
 | -------------------- | ------------------------------------------------------- |
-| MosaicInsigh.py      | show_fits ; show_image ; calc_axis ; save_subfits                      |
+| MosaicInsigh.py      | show_fits ; show_image ; calc_axis ; save_subfits ; dump_fits         |
 | corr_fits.py         | fill_im_hole ; corr_fits ; input_gen ; input_gen_MD                   |
 | Patch_Management.py (1)| fct_IoU ; fct_classical_IoU ; asStride ; poolingOverlap ; NMS_1st|
 | cross_test.py | gen_pos ; gen_test |
