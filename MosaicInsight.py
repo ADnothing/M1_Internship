@@ -413,10 +413,12 @@ def dump_fits(fits_file, disp=True):
 		median = np.nanmedian(image)
 		minval = np.nanmin(image)
 		maxval = np.nanmax(image)
+		std = np.nanstd(image)
 		print("Mean : %.3e %s"%(mean, hdr["BUNIT"]))
 		print("Median : %.3e %s"%(median, hdr["BUNIT"]))
 		print("Min : %.3e %s"%(minval, hdr["BUNIT"]))
 		print("Max : %.3e %s"%(maxval, hdr["BUNIT"]))
+		print("Std : %.3e %s"%(std, hdr["BUNIT"]))
 		
 		print("\nCentral subset pixels values :")
 		center_X = hdr["CRPIX1"]
@@ -426,10 +428,12 @@ def dump_fits(fits_file, disp=True):
 		median = np.nanmedian(sub_image)
 		minval = np.nanmin(sub_image)
 		maxval = np.nanmax(sub_image)
+		std = np.nanstd(sub_image)
 		print("Mean : %.3e %s"%(mean, hdr["BUNIT"]))
 		print("Median : %.3e %s"%(median, hdr["BUNIT"]))
 		print("Min : %.3e %s"%(minval, hdr["BUNIT"]))
 		print("Max : %.3e %s"%(maxval, hdr["BUNIT"]))
+		print("Std : %.3e %s"%(std, hdr["BUNIT"]))
 		
 		
 		
