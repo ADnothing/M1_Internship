@@ -26,6 +26,7 @@ The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_an
 | corr_fits.py         | fill_im_hole ; corr_fits ; input_gen ; input_gen_MD                   |
 | Patch_Management.py (1)| fct_IoU ; fct_classical_IoU ; asStride ; poolingOverlap ; NMS_1st|
 | cross_test.py | gen_pos ; gen_test |
+| make_cat.py | patch_gen ; get_params ; Crea_dendrogram |
 
 Note :
 
