@@ -5,7 +5,25 @@ This repository contains the code I used during my internship.
 
 ## Introduction
 
-...
+Radio-astronomy is experiencing a rebirth in its low-frequency domain, particularly with the development of giant interferometers such as LOFAR, ALMA, NenuFAR, and the upcoming Square Kilometer Array (SKA).
+These instruments produce large and highly dimensional datasets, presenting challenges for traditional methods of source detection and classification.
+In parallel, Machine Learning methods have undergone algorithmic developments that bring them to a high level of maturity for these tasks.
+The MINERVA project (Machine Learning for Radioastronomy at the Observatoire de Paris) is at the forefront of applying Machine Learning to radio-astronomical datasets.
+The project has won 2 years ago the second SKA data challenge 2 (Hartley, et al., 2023) that was focused on source detection and characterization in a large 3D synthetic cube.
+For this purpose, the team developed a specialized Deep Learning detection method.
+This method not only demonstrated state-of-the-art performance for data challenge 2 but also showed great performance in data challenge 1 (Bonaldi, et al., 2020),
+which focused on source detection and classification in synthetic 2D images.
+Now the team looks forward to using this methodology for real observed datasets in order to construct new source catalogs and explore new ways of combining information from multiple surveys.
+
+
+The goal of the internship was to construct a complementary training sample specifically for the LoTSS (the LOFAR Two-metre Sky Survey) survey by pruning source catalogs obtained with other detection methods.
+The LoTSS survey consists of a high-resolution 120-168 MHz survey covering 27% northern sky.
+From this data, a catalog of approximately 4 million radio sources has been derived by the tool Python Blob Detector and Source Finder (PyBDSF) (Shimwell, et al., 2022).
+For that purpose, I followed David Cornu’s class on machine learning.
+Then, I extensively explored the LoTSS DR2 (Shimwell, et al., 2022) to understand its features and potential challenges.
+This informed my approach to constructing a highly reliable and comprehensive training set, which is crucial for effective machine learning applications.
+This internship builds upon the work done in a previous M2 internship where a network trained on SKA data challenge 1 data was applied to the LoTSS dataset, yielding satisfactory results.
+The objective of my internship is to further improve these results by the creation of this training set that will refine the network’s training specifically for LoTSS.
 
 ## LoTSS DR2
 
