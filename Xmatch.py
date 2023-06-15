@@ -214,7 +214,8 @@ def test_cat(cat, hdr, sep=12):
 	minreld = np.mean((Xmatch[:,4]-ctp[:,4])/ctp[:,4])
 	
 	return recall, prec, fluxreld, majreld, minreld
-	
+
+#==============FROM HERE: ONLY TEST AND DIAGNOSTIC====================================
 
 def purity_test(fits_file, min_values=10, delta_values=10):
 	"""
