@@ -61,6 +61,8 @@ The catalog is too heavy for GitHub, if you want to run the Notebook "Catalog_an
 | Patch_Management.py (1)| fct_IoU ; fct_classical_IoU ; asStride ; poolingOverlap ; NMS_1st|
 | cross_test.py | gen_pos ; gen_test |
 | make_cat.py | patch_gen ; get_params ; Crea_dendrogram |
+| corr_cat.py | Rexcl ; clean_cat |
+| Xmatch.py | match_coord ; get_refcat ; get_LoTSS ; test_cat |
 
 Note :
 
