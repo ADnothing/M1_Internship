@@ -5,6 +5,29 @@
 #main python file
 
 
+import numpy as np
+
+from multiprocessing import Pool
+import os
+from tqdm import tqdm
+
+from astropy.io import fits
+
+from make_cat import crea_dendrogram
+from corr_cat import clean_cat
+from Xmatch import test_cat
+
+if not os.path.exists("./dendrocat"):
+	os.makedirs("./dendrocat")
+	
+if not os.path.exists("done.txt"):
+	with open("done.txt", "w"):
+		pass
+
+with open("res.txt", 'w') as file:
+	file.write("cat\trecall\tprec\tfluxreld\tmajreld\þminreld\n")	
+
+
 path = "/minerva/stageM2/SDC1/LOTSS/fits"
 
 def run(fits_file):
