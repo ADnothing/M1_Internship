@@ -198,24 +198,25 @@ def test_cat(cat, hdr, sep=12):
 	RA_LoTSS = LoTSS["RAJ2000"]
 	DEC_LoTSS = LoTSS["DEJ2000"]
 	flux = LoTSS["SpeakTot"]
-	maj = LoTSS["Maj"]
-	min = LoTSS["Min"]
+	bmaj = LoTSS["Maj"]
+	bmin = LoTSS["Min"]
 	
 	n_LoTSS = len(RA_LoTSS)
 	
-	Xmatch, ctp  = match_coord(cat, np.array([RA_LoTSS, DEC_LoTSS, flux, maj, min]).T, sep)
+	Xmatch, ctp  = match_coord(cat, np.array([RA_LoTSS, DEC_LoTSS, flux, bmaj, bmin]).T, sep)
 	
 	nb_Xmatched = Xmatch.shape[0]
 	
-	recall = 100*nb_Xmatched/n
-	prec = 100*nb_Xmatched/n_LoTSS
+	prec = 100*nb_Xmatched/n
+	recall = 100*nb_Xmatched/n_LoTSS
 	fluxreld = np.mean((Xmatch[:,2]-ctp[:,2])/ctp[:,2])
 	majreld = np.mean((Xmatch[:,3]-ctp[:,3])/ctp[:,3])
 	minreld = np.mean((Xmatch[:,4]-ctp[:,4])/ctp[:,4])
 	
 	return recall, prec, fluxreld, majreld, minreld
-
+	
 #==============FROM HERE: ONLY TEST AND DIAGNOSTIC====================================
+	
 
 def purity_test(fits_file, min_values=10, delta_values=10):
 	"""
